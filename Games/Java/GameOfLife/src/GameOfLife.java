@@ -1,11 +1,12 @@
-package src;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameOfLife {
 
-    public static final int rows = 10;
-    public static final int cols = 10;
+    public static final int rows = 25;
+    public static final int cols = 25;
+
+    private int round = 0;
 
     private boolean[][] board;
 
@@ -64,7 +65,7 @@ public class GameOfLife {
                 }
             }
         }
- 
+        round ++;
         board = nextBoard;
     }
 
@@ -75,66 +76,66 @@ public class GameOfLife {
         if (!outOfBounds(row, col-1)) {
             int newCol = col-1;
             // Top Left
-            if (!outOfBounds(row-1, newCol)) { neighbours.add(board[row-1][newCol].get()); }
-            else { neighbours.add(board[row+numRows-1][newCol].get()); }
+            if (!outOfBounds(row-1, newCol)) { neighbours.add(board[row-1][newCol]); }
+            else { neighbours.add(board[row+rows-1][newCol]); }
             // Top
-            if (!outOfBounds(row, newCol)) { neighbours.add(board[row][newCol].get()); }
+            if (!outOfBounds(row, newCol)) { neighbours.add(board[row][newCol]); }
             // Top Right
-            if (!outOfBounds(row+1, newCol)) { neighbours.add(board[row+1][newCol].get()); }
-            else { neighbours.add(board[row-numRows+1][newCol].get()); }
+            if (!outOfBounds(row+1, newCol)) { neighbours.add(board[row+1][newCol]); }
+            else { neighbours.add(board[row-rows+1][newCol]); }
         // If wrap around required
         } else {
-            int newCol = col+numCols-1;
+            int newCol = col+cols-1;
             // Top Left
-            if (!outOfBounds(row-1, col)) { neighbours.add(board[row-1][newCol].get()); }
-            else { neighbours.add(board[row+numRows-1][newCol].get()); }
+            if (!outOfBounds(row-1, col)) { neighbours.add(board[row-1][newCol]); }
+            else { neighbours.add(board[row+rows-1][newCol]); }
             // Top
-            if (!outOfBounds(row, col)) { neighbours.add(board[row][newCol].get()); }
+            if (!outOfBounds(row, col)) { neighbours.add(board[row][newCol]); }
             // Top Right
-            if (!outOfBounds(row+1, col)) { neighbours.add(board[row+1][newCol].get()); }
-            else { neighbours.add(board[row-numRows+1][newCol].get()); }
+            if (!outOfBounds(row+1, col)) { neighbours.add(board[row+1][newCol]); }
+            else { neighbours.add(board[row-rows+1][newCol]); }
         }
         // Add neighours on this row
         if (!outOfBounds(row, col)) {
             int newCol = col;
             // Left
-            if (!outOfBounds(row-1, newCol)) { neighbours.add(board[row-1][newCol].get()); }
-            else { neighbours.add(board[row+numRows-1][newCol].get()); }
+            if (!outOfBounds(row-1, newCol)) { neighbours.add(board[row-1][newCol]); }
+            else { neighbours.add(board[row+rows-1][newCol]); }
             // Right
-            if (!outOfBounds(row+1, newCol)) { neighbours.add(board[row+1][newCol].get()); }
-            else { neighbours.add(board[row-numRows+1][newCol].get()); }
+            if (!outOfBounds(row+1, newCol)) { neighbours.add(board[row+1][newCol]); }
+            else { neighbours.add(board[row-rows+1][newCol]); }
         }
         // Add neighbours below
         if (!outOfBounds(row, col+1)) {
             int newCol = col+1;
             // Bottom Left
-            if (!outOfBounds(row-1, newCol)) { neighbours.add(board[row-1][newCol].get()); }
-            else { neighbours.add(board[row+numRows-1][newCol].get()); }
+            if (!outOfBounds(row-1, newCol)) { neighbours.add(board[row-1][newCol]); }
+            else { neighbours.add(board[row+rows-1][newCol]); }
             // Bottom
-            if (!outOfBounds(row, newCol)) { neighbours.add(board[row][newCol].get()); }
+            if (!outOfBounds(row, newCol)) { neighbours.add(board[row][newCol]); }
             // Bottom Right
-            if (!outOfBounds(row+1, newCol)) { neighbours.add(board[row+1][newCol].get()); }
-            else { neighbours.add(board[row-numRows+1][newCol].get()); }
+            if (!outOfBounds(row+1, newCol)) { neighbours.add(board[row+1][newCol]); }
+            else { neighbours.add(board[row-rows+1][newCol]); }
         // If wrap around required
         } else {
-            int newCol = col-numCols+1;
+            int newCol = col-cols+1;
             // Bottom Left
-            if (!outOfBounds(row-1, col)) { neighbours.add(board[row-1][newCol].get()); }
-            else { neighbours.add(board[row+numRows-1][newCol].get()); }
+            if (!outOfBounds(row-1, col)) { neighbours.add(board[row-1][newCol]); }
+            else { neighbours.add(board[row+rows-1][newCol]); }
             // Bottom
-            if (!outOfBounds(row, col)) { neighbours.add(board[row][newCol].get()); }
+            if (!outOfBounds(row, col)) { neighbours.add(board[row][newCol]); }
             // Bottom Right
-            if (!outOfBounds(row+1, col)) { neighbours.add(board[row+1][newCol].get()); }
-            else { neighbours.add(board[row-numRows+1][newCol].get()); }
+            if (!outOfBounds(row+1, col)) { neighbours.add(board[row+1][newCol]); }
+            else { neighbours.add(board[row-rows+1][newCol]); }
         }
 
         return neighbours;
     }
 
     public void printBoard() {
-        System.out.println("#" * (rows + 2));
+        System.out.println(new String(new char[rows+2]).replace('\0', '#'));
         for (int row = 0; row < rows; row++) {
-            System.out.print("#")
+            System.out.print("#");
             for (int col = 0; col < cols; col++) {
                 if (board[row][col]) {
                     System.out.print("o");
@@ -142,8 +143,51 @@ public class GameOfLife {
                     System.out.print(" ");
                 }
             }
-            System.out.print("#\n")
+            System.out.print("#\n");
         }
-        System.out.println("#" * (rows + 2));
+        System.out.println(new String(new char[rows+2]).replace('\0', '#'));
+    }
+
+    public boolean isAlive(int row, int col) {
+        return board[row][col];
+    }
+
+    public void start() throws InterruptedException {
+        while (true) {
+            Thread.sleep(250);
+            tick();
+            clearScreen();
+            printTitle();
+            printBoard();
+            printRound();
+        }
+    }
+
+    public void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+    
+    public void printTitle() {
+        System.out.println("Conways Game Of Life");
+    }
+
+    public void printRound() {
+        System.out.println("Round: " + round);
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        GameOfLife game = new GameOfLife();
+        // Create a Blinker
+        // game.ensureAlive(2, 2);
+        // game.ensureAlive(3, 2);
+        // game.ensureAlive(4, 2);
+        // Create a Glider
+        game.ensureAlive(3, 1);
+        game.ensureAlive(3, 2);
+        game.ensureAlive(3, 3);
+        game.ensureAlive(2, 3);
+        game.ensureAlive(1, 2);
+        game.start();
     }
 }
