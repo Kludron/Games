@@ -1,3 +1,7 @@
+package mania.src.items;
+
+import mania.src.Item;
+
 public class Sword extends Item {
     
     private double damage = 10;

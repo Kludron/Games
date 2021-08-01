@@ -1,4 +1,4 @@
-import mania.src.Character;
+package mania.src;
 
 public abstract class Item {
     
@@ -52,6 +52,14 @@ public abstract class Item {
         character.setDamage(character.getDamage()+getDamage());
         character.setDefence(character.getDefence()+getDefence());
         character.setHealth(character.getHealth()+getHealth());
+        return character;
+    }
+
+    public Character unwrap(Character character) {
+        character.setDamage(character.getDamage()-getDamage());
+        character.setDefence(character.getDefence()-getDefence());
+        character.takeDamage(getHealth());
+        return character;
     }
 
 }

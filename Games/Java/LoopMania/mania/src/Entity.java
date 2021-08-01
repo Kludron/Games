@@ -1,3 +1,5 @@
+package mania.src;
+
 import java.util.*;
 
 public abstract class Entity implements Fight {
@@ -8,12 +10,18 @@ public abstract class Entity implements Fight {
     private int gold;
     private double experience;
     private double damage;
+    private Position position;
+
+    public Entity(World map, Position position) {
+        map.addEntity(this, position);
+        this.position = position;
+    }
 
     public void setDamage(double damage) {
         this.damage = damage;
     }
 
-    public void setDefence(int defence) {
+    public void setDefence(double defence) {
         this.defence = defence;
     }
 
@@ -33,7 +41,7 @@ public abstract class Entity implements Fight {
         return damage;
     }
 
-    public int getDefence() {
+    public double getDefence() {
         return defence;
     }
 
@@ -58,7 +66,11 @@ public abstract class Entity implements Fight {
     }
 
     public Item removeItem(Item item) {
-        if (items.contains(item)) {return items.remove(item);}
+        if (items.contains(item)) {
+            if (items.remove(item)) {
+                return item;
+            }
+        }
         return null;
     }
 
@@ -70,20 +82,32 @@ public abstract class Entity implements Fight {
     @Override
     public void attack(Entity target) {
         target.takeDamage(getDamage());
-        if (!target.isAlive()) {
-            // Transfer items
-            for (Item droppedItem : target.getItems()) {
-                addItem(target.removeItem(droppedItem));
-            }
-            // Transfer gold
-            setGold(getGold()+target.getGold());
-            // Transfer experience
-            setExperience(getExperience()+target.getExperience());
-        }
+        if (!target.isAlive()) {getReward(target);}
     }
 
     public boolean isAlive() {
         return health > (double) 0;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    public void getReward(Entity opponent) {
+        if (!opponent.isAlive()) {
+            // Transfer items
+            for (Item droppedItem : opponent.getItems()) {
+                addItem(droppedItem);
+            }
+            // Transfer gold
+            setGold(getGold()+opponent.getGold());
+            // Transfer experience
+            setExperience(getExperience()+opponent.getExperience());
+        }
     }
 
 }
