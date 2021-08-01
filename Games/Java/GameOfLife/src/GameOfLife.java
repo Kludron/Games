@@ -1,22 +1,20 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class GameOfLife {
 
-    public static final int rows = 25;
-    public static final int cols = 25;
+    private int minRows = 5;
+    private int minCols = 5;
+    private int rows = 10;
+    private int cols = 10;
 
     private int round = 0;
 
     private boolean[][] board;
 
     public GameOfLife() {
-        board = new boolean[rows][cols];
-        for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < cols; col++) {
-                board[row][col] = false;
-            }
-        }
+        gameInit();
     }
 
     public void ensureAlive(int row, int col) {
@@ -133,7 +131,7 @@ public class GameOfLife {
     }
 
     public void printBoard() {
-        System.out.println(new String(new char[rows+2]).replace('\0', '#'));
+        System.out.println(new String(new char[cols+2]).replace('\0', '#'));
         for (int row = 0; row < rows; row++) {
             System.out.print("#");
             for (int col = 0; col < cols; col++) {
@@ -145,7 +143,7 @@ public class GameOfLife {
             }
             System.out.print("#\n");
         }
-        System.out.println(new String(new char[rows+2]).replace('\0', '#'));
+        System.out.println(new String(new char[cols+2]).replace('\0', '#'));
     }
 
     public boolean isAlive(int row, int col) {
@@ -154,7 +152,7 @@ public class GameOfLife {
 
     public void start() throws InterruptedException {
         while (true) {
-            Thread.sleep(250);
+            Thread.sleep(100);
             tick();
             clearScreen();
             printTitle();
@@ -176,18 +174,82 @@ public class GameOfLife {
         System.out.println("Round: " + round);
     }
 
+    public void gameInit() {
+
+        System.out.print("Enter the number of rows (default = 10): ");
+        Scanner scanner = new Scanner(System.in);
+        try {
+            int newRows = Integer.parseInt(scanner.nextLine());
+            if (newRows >= minRows) {
+                rows = newRows;
+            } else {
+                rows = minRows;
+            }
+        } catch (NumberFormatException e) {;}
+        System.out.print("Enter the number of columns (default = 10): ");
+        try {
+            int newCols = Integer.parseInt(scanner.nextLine());
+            if (newCols >= minCols) {
+                cols = newCols;
+            } else {
+                cols = minCols;
+            }
+        } catch (NumberFormatException e) {;}
+
+        board = new boolean[rows][cols];
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                board[row][col] = false;
+            }
+        }
+
+        System.out.print("What life would you like to start?[Blinker, Glider, Toad, Lightweight Spaceship]: ");
+        String input = scanner.nextLine();
+        switch (input.toLowerCase()) {
+            case "blinker" :
+                ensureAlive(2, 1);
+                ensureAlive(2, 2);
+                ensureAlive(2, 3);
+                break;
+            case "glider" :
+                ensureAlive(0, 2);
+                ensureAlive(2, 1);
+                ensureAlive(2, 2);
+                ensureAlive(2, 3);
+                ensureAlive(1, 3);
+                break;
+            case "toad" :
+                ensureAlive(2, 1);
+                ensureAlive(2, 2);
+                ensureAlive(2, 3);
+                ensureAlive(1, 0);
+                ensureAlive(1, 1);
+                ensureAlive(1, 2);
+                break;
+            case "lightweight spaceship" :
+                ensureAlive(1, 1);
+                ensureAlive(3, 1);
+                ensureAlive(4, 2);
+                ensureAlive(4, 3);
+                ensureAlive(4, 4);
+                ensureAlive(4, 5);
+                ensureAlive(3, 5);
+                ensureAlive(2, 5);
+                ensureAlive(1, 4);
+                break;
+            case "gosper glider gun" :
+            default :
+                ensureAlive(1, 1);
+                ensureAlive(1, 2);
+                ensureAlive(2, 1);
+                ensureAlive(4, 4);
+                ensureAlive(3, 4);
+                ensureAlive(4, 3);
+        }
+    }
+
     public static void main(String[] args) throws InterruptedException {
         GameOfLife game = new GameOfLife();
-        // Create a Blinker
-        // game.ensureAlive(2, 2);
-        // game.ensureAlive(3, 2);
-        // game.ensureAlive(4, 2);
-        // Create a Glider
-        game.ensureAlive(3, 1);
-        game.ensureAlive(3, 2);
-        game.ensureAlive(3, 3);
-        game.ensureAlive(2, 3);
-        game.ensureAlive(1, 2);
         game.start();
     }
 }
