@@ -15,6 +15,15 @@ public class LoopMania {
     public LoopMania(World map, Character character) {
         this.map = map;
         this.character = character;
+        map.addEntity(character, character.getPosition());
+    }
+
+    public LoopMania(World map) {
+        this.map = map;
+    }
+
+    public void addCharacter(Character character) {
+        this.character = character;
     }
 
     public Character getCharacter() {
@@ -26,7 +35,10 @@ public class LoopMania {
     }
 
     public void addEnemy(Enemy enemy) {
-        if (!enemies.contains(enemy)) {enemies.add(enemy);}
+        if (!enemies.contains(enemy)) {
+            enemies.add(enemy);
+            map.addEntity(enemy, enemy.getPosition());
+        }
     }
 
     public void removeEnemy(Enemy enemy) {

@@ -12,39 +12,74 @@ public abstract class Entity implements Fight {
     private double damage;
     private Position position;
 
-    public Entity(World map, Position position) {
-        map.addEntity(this, position);
+    /**
+     * Basic constructor for an Entity
+     * @param position Position: Starting position
+     */
+    public Entity(Position position) {
         this.position = position;
     }
 
+    /**
+     * Sets the entity's damage
+     * @param damage double: Amount of Damage to deal
+     */
     public void setDamage(double damage) {
         this.damage = damage;
     }
 
+    /**
+     * Sets the entity's defence
+     * @param defence double: Amount of defence
+     */
     public void setDefence(double defence) {
         this.defence = defence;
     }
 
+    /**
+     * Sets the entity's experience
+     * @param experience double: Experience amount
+     */
     public void setExperience(double experience) {
         this.experience = experience;
     }
 
+    /**
+     * Sets the entity's gold
+     * @param gold int: Gold amount
+     */
     public void setGold(int gold) {
         this.gold = gold;
     }
 
+    /**
+     * Sets the entity's health
+     * @param health double: Health amount
+     */
     public void setHealth(double health) {
         this.health = health;
     }
 
+    /**
+     * Gets the entity's damage
+     * @return double: Damage amount
+     */
     public double getDamage() {
         return damage;
     }
 
+    /**
+     * Gets the entity's defence
+     * @return double: Defence amount
+     */
     public double getDefence() {
         return defence;
     }
 
+    /**
+     * 
+     * @return
+     */
     public double getExperience() {
         return experience;
     }

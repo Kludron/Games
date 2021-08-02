@@ -2,8 +2,12 @@ package mania.src;
 
 public abstract class Enemy extends Entity {
 
-    public Enemy(World map, Position position) {
-        super(map, position);
+    /**
+     * Basic constructor for enemy type
+     * @param position Position: Starting position
+     */
+    public Enemy(Position position) {
+        super(position);
     }
 
 }

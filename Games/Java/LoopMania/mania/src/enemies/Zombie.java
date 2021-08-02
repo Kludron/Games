@@ -13,8 +13,8 @@ public class Zombie extends Enemy {
     private double experience = 10;
     private int gold = 5;
 
-    public Zombie(World map, Position position) {
-        super(map, position);
+    public Zombie(Position position) {
+        super(position);
         super.setDamage(damage);
         super.setHealth(health);
         super.setDefence(defence);
