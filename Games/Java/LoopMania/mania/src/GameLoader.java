@@ -13,15 +13,19 @@ public class GameLoader {
     private Character character = new Character(map.getAvailablePositions().get(0));
     private LoopMania game = new LoopMania(map, character);
 
+    private int ENEMY_SPAWN_ROUND = 2;
+
     private String startPrompt = "Welcome to The Game!";
     private String controlsPrompt = "Help [h] | PrintMap [p] | PrintStats [c] | Move [m] | Shop [s] | Exit [x / q]";
 
-    public void playRound() {
-        
-        if (round % 5 == 0) {game.addEnemy(generateRandomEnemy());}
-
-
+    public boolean playRound() {
+        if (!character.isAlive()) {
+            System.out.println("Game Over!");
+            return false;
+        }
+        if (round % ENEMY_SPAWN_ROUND == 0) {game.addEnemy(generateRandomEnemy());}
         round ++;
+        return true;
     }
 
     public Enemy generateRandomEnemy() {
@@ -42,12 +46,14 @@ public class GameLoader {
         Scanner input = new Scanner(System.in);
         System.out.print("> ");
         String command = input.nextLine();
-        switch (command.toLowerCase()) {
+        switch (command.toLowerCase().strip()) {
             case "h":
                 System.out.println(controlsPrompt);
                 return true;
             case "s":
-                System.out.println("Shop is still in development.");
+                Shop shop = new Shop(character);
+                shop.openShop();
+                while (shop.isOpen()){;}
                 return true;
             case "p":
                 map.showWorld();
@@ -64,11 +70,13 @@ public class GameLoader {
                     String[] nums = input.nextLine().split(" ");
                     int row = Integer.valueOf(nums[0]);
                     int col = Integer.valueOf(nums[1]);
-                    map.moveEntity(character, new Position(row, col));
+                    game.moveEntity(character, new Position(row, col));
                 } catch (Exception e) {
                     System.out.println("An error occurred while attempting to move the character.");
                 }
-                return true;
+                return playRound();
+            case "n":
+                
             default:
                 System.out.println("Command not found.");
                 System.out.println(controlsPrompt);
@@ -86,7 +94,6 @@ public class GameLoader {
     }
 
     public static void main(String[] args) {
-
         GameLoader game = new GameLoader();
         game.beginGame();
     }

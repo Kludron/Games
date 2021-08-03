@@ -3,6 +3,8 @@ package mania.src;
 import java.util.ArrayList;
 import java.util.List;
 
+import mania.src.enemies.Zombie;
+
 public class World {
     
     private int rows = 10;
@@ -40,6 +42,12 @@ public class World {
         return false;
     }
 
+    public void clearPosition(Position position) {
+        if (!outOfBounds(position)) {
+            grid[position.getRow()][position.getCol()] = null;
+        }
+    }
+
     public boolean moveEntity(Entity entity, Position position) {
         if (!outOfBounds(position) && isEmpty(position)) {
             // Set the entity's new position
@@ -66,19 +74,27 @@ public class World {
     }
 
     public void showWorld() {
+        System.out.print("  ");
+        for (int i = 0; i < cols; i++) {System.out.print(i+" ");}
+        System.out.println("");
         for (int row = 0; row < rows; row++) {
+            System.out.print(row+" ");
             for (int col = 0; col < cols; col++) {
                 Position curPos = new Position(row, col);
                 if (!isEmpty(curPos)) {
                     if (getEntity(curPos) instanceof Character) {
-                        System.out.print("c");
+                        System.out.print("c ");
                     } else if (getEntity(curPos) instanceof Enemy) {
-                        System.out.print("e");
+                        if (getEntity(curPos) instanceof Zombie) {
+                            System.out.print("z ");
+                        } else {
+                            System.out.print("e ");
+                        }
                     } else {
-                        System.out.print("o");
+                        System.out.print("o ");
                     }
                 } else {
-                    System.out.print(".");
+                    System.out.print(". ");
                 }
             }
             System.out.println("");

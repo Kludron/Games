@@ -1,0 +1,9 @@
+{
+    "java.project.sourcePaths": [
+        "Games/Java/GameOfLife/src",
+        "Games/Java/LoopMania/"
+    ],
+    "java.project.referencedLibraries": [
+        "Games/Java/LoopMania/lib/**/*.jar"
+    ]
+}

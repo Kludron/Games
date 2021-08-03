@@ -1,5 +1,8 @@
 package mania.src;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Character extends Entity {
     
     private double health = 100;
@@ -7,6 +10,8 @@ public class Character extends Entity {
     private double defence = 0;
     private double experience = 0;
     private int gold = 0;
+
+    private List<Item> equippedItems = new ArrayList<Item>();
 
     /**
      * Basic constructor for Character
@@ -27,6 +32,7 @@ public class Character extends Entity {
      */
     public void equipItem(Item item) {
         item.wrapper(this);
+        equippedItems.add(item);
     }
 
     /**
@@ -36,11 +42,16 @@ public class Character extends Entity {
     public void unequipItem(Item item) {
         // TODO: Ensure unequipping this item won't kill them
         item.unwrap(this);
+        equippedItems.remove(item);
     }
 
     @Override
     public String toString() {
         return "==========\nHealth: " + getHealth() + "\nExperience: " + getExperience() + "\nGold: " + getGold() + "\nDamage: " + getDamage() + "\nDefence: " + getDefence() + "\n==========";
+    }
+
+    public boolean isEquipped(Item item) {
+        return equippedItems.contains(item);
     }
 
 }

@@ -2,14 +2,14 @@ package mania.src.items;
 
 import mania.src.Item;
 
-public class Sword extends Item {
+public class Shield extends Item {
     
-    private double damage = 10;
+    private double defence = 5;
     private int buyPrice = 25;
     private int sellPrice = buyPrice / 2;
 
-    public Sword() {
-        setDamage(damage);
+    public Shield() {
+        setDefence(defence);
         setSellPrice(sellPrice);
         setBuyPrice(buyPrice);
     }

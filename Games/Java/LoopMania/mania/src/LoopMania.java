@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import mania.src.items.Sword;
+import mania.src.items.*;
 
 public class LoopMania {
 
@@ -53,23 +53,28 @@ public class LoopMania {
         if (!fighterA.isAlive()) {
             if (fighterA instanceof Enemy) {
                 enemies.remove(fighterA);
+                map.clearPosition(fighterA.getPosition());
             }
         } 
         if (!fighterB.isAlive()) {
             if (fighterB instanceof Enemy) {
                 enemies.remove(fighterB);
+                map.clearPosition(fighterB.getPosition());
             }
         } 
     }
 
     public static Item randItem() {
+        int numItems = 4;
         Random random = new Random();
-        int randNum = random.nextInt(100);
+        int randNum = random.nextInt(numItems*20);
 
-        if (randNum < 10) {
-            return new Sword();
-        }
-        return null;
+        if (randNum < 10) {return new Sword();}
+        else if (randNum < 20) {return new Axe();}
+        else if (randNum < 30) {return new HealthPotion();}
+        else if (randNum < 40) {return new Shield();}
+        else {return null;}
+
     }
 
     public void moveEntity(Entity entity, Position position) {
