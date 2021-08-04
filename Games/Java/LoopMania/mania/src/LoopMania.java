@@ -64,10 +64,12 @@ public class LoopMania {
         } 
     }
 
-    public static Item randItem() {
+    public static Item randItem(double spawnChance) {
         int numItems = 4;
         Random random = new Random();
-        int randNum = random.nextInt(numItems*20);
+
+        int chance = 10 * numItems + (int)(10 * (1-spawnChance) * numItems);
+        int randNum = random.nextInt(chance);
 
         if (randNum < 10) {return new Sword();}
         else if (randNum < 20) {return new Axe();}
@@ -78,6 +80,7 @@ public class LoopMania {
     }
 
     public void moveEntity(Entity entity, Position position) {
+        if (entity.getPosition().equals(position)) {return;} // Not moving
         if (map.isEmpty(position)) {map.moveEntity(entity, position);}
         else {
             fight(entity, map.getEntity(position));

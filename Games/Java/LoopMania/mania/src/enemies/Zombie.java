@@ -19,7 +19,7 @@ public class Zombie extends Enemy {
         setDefence(defence);
         setExperience(experience);
         setGold(gold);
-        addItem(LoopMania.randItem());
+        addItem(LoopMania.randItem(0.5));
     }
 
 }

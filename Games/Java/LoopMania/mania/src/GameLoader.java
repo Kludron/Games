@@ -1,9 +1,11 @@
 package mania.src;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Scanner;
 
+import mania.src.enemies.Slime;
 import mania.src.enemies.Zombie;
 
 public class GameLoader {
@@ -13,10 +15,10 @@ public class GameLoader {
     private Character character = new Character(map.getAvailablePositions().get(0));
     private LoopMania game = new LoopMania(map, character);
 
-    private int ENEMY_SPAWN_ROUND = 2;
+    private int ENEMY_SPAWN_ROUND = 1;
 
     private String startPrompt = "Welcome to The Game!";
-    private String controlsPrompt = "Help [h] | PrintMap [p] | PrintStats [c] | Move [m] | Shop [s] | Exit [x / q]";
+    private String controlsPrompt = "Help [h] | PrintMap [p] | PrintStats [c] | Move [m] | Shop [s] | Equip [e] | Unequip [u] | Exit [x / q]";
 
     public boolean playRound() {
         if (!character.isAlive()) {
@@ -30,7 +32,7 @@ public class GameLoader {
 
     public Enemy generateRandomEnemy() {
         Random random = new Random();
-        int enemyTypes = 1;
+        int enemyTypes = 2;
         int randNumber = random.nextInt(enemyTypes*10);
         List<Position> positions = map.getAvailablePositions();
         Position position = positions.get(random.nextInt(positions.size()));
@@ -38,13 +40,14 @@ public class GameLoader {
         if (randNumber < 10) {
             return new Zombie(position);
         } else {
-            return new Zombie(position);
+            return new Slime(position);
         }
     }
 
     public boolean prompt() {
         Scanner input = new Scanner(System.in);
         System.out.print("> ");
+        try {
         String command = input.nextLine();
         switch (command.toLowerCase().strip()) {
             case "h":
@@ -75,12 +78,24 @@ public class GameLoader {
                     System.out.println("An error occurred while attempting to move the character.");
                 }
                 return playRound();
-            case "n":
-                
+            case "e":
+                System.out.print("Which item would you like to equip? [0-"+(character.getItems().size()-1)+"]: ");
+                try {
+                    int itemNum = Integer.parseInt(input.nextLine());
+                    character.equipItem(character.getItems().get(itemNum));
+                    System.out.println("Equip Successful");
+                } catch (Exception e) {
+                    System.out.println("An error occurred while trying to equip the item.");
+                    System.out.println("Equip Unsuccessful");
+                }
+                return true;
             default:
                 System.out.println("Command not found.");
                 System.out.println(controlsPrompt);
                 return true;
+        }
+        } catch (NoSuchElementException e) {
+            return false;
         }
      }
 

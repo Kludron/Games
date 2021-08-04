@@ -16,7 +16,7 @@ public class Shop {
     public Shop(Character character) {
         this.character = character;
         for (int i = 0; i < MAX_SHOP_SIZE; i++) {
-            Item item = LoopMania.randItem();
+            Item item = LoopMania.randItem(1);
             if (item != null) {
                 items.add(item);
             }
@@ -36,16 +36,18 @@ public class Shop {
                     break;
                 case "i":
                     for (int item = 0; item < items.size(); item++) {
-                        System.out.println(item + " - " + items.get(item).getClass().getName() + ": " + items.get(item).getBuyPrice());
+                        String itemName = items.get(item).getName();
+                        System.out.println(item + " - " + itemName + ": " + items.get(item).getBuyPrice());
                     }
                     break;
                 case "c":
                     System.out.println("Gold = " + character.getGold());
                     for (Item item : character.getItems()) {
-                        System.out.println(item.getClass().getSimpleName().substring(15) + ": " + item.getBuyPrice());
+                        String itemName = item.getName();
+                        System.out.println(character.getItems().indexOf(item) + " - " + itemName + ": " + item.getSellPrice());
                     }
                     break;
-                case "p":
+                case "p": // Purchase an item
                     System.out.println("Gold = " + character.getGold());
                     System.out.print("Which item would you like to purchase? [0-"+(items.size()-1)+"]: ");
                     try {
@@ -55,7 +57,7 @@ public class Shop {
                         System.out.println("An error occurred while purchasing the item...");
                     }
                     break;
-                case "s":
+                case "s": // Sell an item
                     System.out.println("Gold = " + character.getGold());
                     System.out.print("Which item would you like to sell? [0-"+(character.getItems().size()-1)+"]: ");
                     try {
@@ -74,7 +76,6 @@ public class Shop {
             }
         }
         System.out.println("Thank you for visiting the shop!");
-        input.close();
     }
 
     public void closeShop() {
@@ -87,8 +88,10 @@ public class Shop {
     
     public void purchase(int itemNumber) {
         if (itemNumber < items.size() && character.getGold() >= items.get(itemNumber).getBuyPrice()) {
-            character.addItem(items.get(itemNumber));
+            Item item = items.get(itemNumber);
+            character.addItem(item);
             character.setGold(character.getGold()-items.get(itemNumber).getBuyPrice());
+            items.remove(item);
             System.out.println("Purchase Successful");
         } else {
             System.out.println("Purchase Unsuccessful");

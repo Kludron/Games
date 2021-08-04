@@ -62,4 +62,8 @@ public abstract class Item {
         return character;
     }
 
+    public String getName() {
+        return this.getClass().getSimpleName();
+    }
+
 }
