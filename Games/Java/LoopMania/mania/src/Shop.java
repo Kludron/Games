@@ -43,6 +43,7 @@ public class Shop {
                 case "c":
                     System.out.println("Gold = " + character.getGold());
                     for (Item item : character.getItems()) {
+                        if (item == null) {continue;}
                         String itemName = item.getName();
                         System.out.println(character.getItems().indexOf(item) + " - " + itemName + ": " + item.getSellPrice());
                     }

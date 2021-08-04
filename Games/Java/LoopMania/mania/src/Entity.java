@@ -136,7 +136,7 @@ public abstract class Entity implements Fight {
         if (!opponent.isAlive()) {
             // Transfer items
             for (Item droppedItem : opponent.getItems()) {
-                addItem(droppedItem);
+                if (droppedItem != null) {addItem(droppedItem);}
             }
             // Transfer gold
             setGold(getGold()+opponent.getGold());
