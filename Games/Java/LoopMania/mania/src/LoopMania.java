@@ -2,7 +2,9 @@ package mania.src;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Random;
+import java.util.Scanner;
 
 import mania.src.items.*;
 
@@ -46,6 +48,16 @@ public class LoopMania {
     }
 
     public void fight(Entity fighterA, Entity fighterB) {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Fighter 1:\n" + fighterA.toString() + "Fighter 2:\n" + fighterB.toString());
+        System.out.print("Fight? [Y/N]: ");
+        try {
+            String answer = input.nextLine().strip().toLowerCase();
+            if (answer.equals("y")) {;}
+            else {return;}
+        } catch (NoSuchElementException e) {
+            return;
+        }
         while (fighterA.isAlive() && fighterB.isAlive()) {
             fighterA.attack(fighterB);
             if (fighterB.isAlive()) {fighterB.attack(fighterA);}
@@ -61,7 +73,7 @@ public class LoopMania {
                 enemies.remove(fighterB);
                 map.clearPosition(fighterB.getPosition());
             }
-        } 
+        }
     }
 
     public static Item randItem(double spawnChance) {
@@ -84,6 +96,8 @@ public class LoopMania {
         if (map.isEmpty(position)) {map.moveEntity(entity, position);}
         else {
             fight(entity, map.getEntity(position));
+            // If they fled
+            if (entity != null && !map.isEmpty(position)) {return;}
             if (entity != null) {map.moveEntity(entity, position);}
         }
     }

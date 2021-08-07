@@ -18,4 +18,10 @@ public class Position {
         return row;
     }
     
+    // @Override
+    public boolean equals(Position position) {
+        if (row == position.getRow() && col == position.getCol() && position.getClass() == this.getClass()) {return true;}
+        return false;
+    }
+
 }

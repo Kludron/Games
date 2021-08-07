@@ -1,15 +1,16 @@
 package mania.src;
 
-import java.rmi.NoSuchObjectException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Character extends Entity {
     
-    private double health = 100;
+    private double maxHealth = 100;
+    private double health = maxHealth;
     private double damage = 5;
     private double defence = 0;
     private double experience = 0;
+    private int level = 0;
     private int gold = 0;
 
     private List<Item> equippedItems = new ArrayList<Item>();
@@ -49,30 +50,75 @@ public class Character extends Entity {
         addItem(item);
     }
 
+    /**
+     * Gets a list of all the characters equipped items
+     * @return List<Item>: Equipped Items
+     */
+    public List<Item> getEquippedItems() {
+        return equippedItems;
+    }
+
     @Override
     public String toString() {
         return "=========="
-            + "\nHealth: "+ getHealth()
-            + "\nExperience: "+ getExperience()
-            + "\nGold: "+ getGold()
+            + "\nLevel: " + getLevel() 
+            + "\nHealth: " + getHealth()
+            + "\nExperience: " + getExperience()
+            + "\nGold: " + getGold()
             + "\nDamage: " + getDamage()
             + "\nDefence: " + getDefence()
-            + "\nItems:" + getStringItems()
-            + "\n==========";
+            + "\nItems:" + getStringItems(getItems())
+            + "\nEquipped:" + getStringItems(getEquippedItems())
+            + "\n==========\n";
     }
 
+    public int getLevel() {
+        return level;
+    }
+
+    /**
+     * Checks whether or not the given item is equipped
+     * @param item Item: The item to check
+     * @return boolean: Is item equipped?
+     */
     public boolean isEquipped(Item item) {
         return equippedItems.contains(item);
     }
 
-    public String getStringItems() {
+    /**
+     * Get the items as a string
+     * @param items List<Item>: List of items to conver to string
+     * @return String: List of items in string form
+     */
+    public String getStringItems(List<Item> items) {
         String result = "[";
-        for (int i = 0; i < getItems().size(); i++) {
-            Item item = getItems().get(i);
-            if (item != null) {result += getItems().get(i).getName();};
-            if (i < getItems().size()-1) {result += ", ";}
+        for (int i = 0; i < items.size(); i++) {
+            Item item = items.get(i);
+            if (item != null) {result += items.get(i).getName();};
+            if (i < items.size()-1) {result += ", ";}
         }
         return result + "]";
+    }
+
+    public double getMaxHealth() {
+        return maxHealth;
+    }
+
+    public void setMaxHealth(double maxHealth) {
+        this.maxHealth = maxHealth;
+    }
+
+    public void levelUp() {
+        level ++;
+        setMaxHealth(getMaxHealth()+20);
+        setHealth(getMaxHealth());
+        experience = 0;    
+    }
+
+    @Override
+    public void setExperience(double experience) {
+        if (experience >= (1000 + level*200)) {levelUp();}
+        else {this.experience = experience;}
     }
 
 }

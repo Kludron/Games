@@ -10,4 +10,13 @@ public abstract class Enemy extends Entity {
         super(position);
     }
 
+    @Override
+    public String toString() {
+        return "=========="
+            + "\nType: " + this.getClass().getSimpleName()
+            + "\nHealth: " + getHealth()
+            + "\nDamage: " + getDamage()
+            + "\n==========\n";
+    }
+
 }

@@ -3,7 +3,8 @@ package mania.src;
 import java.util.ArrayList;
 import java.util.List;
 
-import mania.src.enemies.Zombie;
+import mania.src.enemies.*;
+import mania.src.enemies.bosses.UltimateBoss;
 
 public class World {
     
@@ -85,10 +86,10 @@ public class World {
                     if (getEntity(curPos) instanceof Character) {
                         System.out.print("c ");
                     } else if (getEntity(curPos) instanceof Enemy) {
-                        if (getEntity(curPos) instanceof Zombie) {
-                            System.out.print("z ");
+                        if (getEntity(curPos) instanceof Boss) {
+                            System.out.print("@ ");
                         } else {
-                            System.out.print("e ");
+                            System.out.print("# ");
                         }
                     } else {
                         System.out.print("o ");

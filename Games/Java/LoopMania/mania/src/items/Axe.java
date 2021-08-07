@@ -5,7 +5,7 @@ import mania.src.Item;
 public class Axe extends Item {
     
     private double damage = 15;
-    private int buyPrice = 35;
+    private int buyPrice = 75;
     private int sellPrice = buyPrice / 2;
 
     public Axe() {
