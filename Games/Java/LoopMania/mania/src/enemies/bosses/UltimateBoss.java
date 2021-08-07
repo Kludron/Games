@@ -1,8 +1,8 @@
 package mania.src.enemies.bosses; 
 
+import mania.src.Boss;
 import mania.src.LoopMania;
 import mania.src.Position;
-import mania.src.enemies.Boss;
 
 public class UltimateBoss extends Boss {
 

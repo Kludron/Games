@@ -112,13 +112,13 @@ public class Character extends Entity {
         level ++;
         setMaxHealth(getMaxHealth()+20);
         setHealth(getMaxHealth());
-        experience = 0;    
+        super.setExperience(0);   
     }
 
     @Override
     public void setExperience(double experience) {
         if (experience >= (1000 + level*200)) {levelUp();}
-        else {this.experience = experience;}
+        else {super.setExperience(experience);}
     }
 
 }

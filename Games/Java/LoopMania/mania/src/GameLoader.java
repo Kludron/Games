@@ -50,7 +50,7 @@ public class GameLoader {
         }
     }
 
-    public Enemy generateRandomBoss() {
+    public Boss generateRandomBoss() {
         Random random = new Random();
         int bossTypes = 2;
         int randNumber = random.nextInt(bossTypes*10);

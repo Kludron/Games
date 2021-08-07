@@ -9,7 +9,7 @@ public class Slime extends Enemy {
     private double health = 15;
     private double damage = 5;
     private double defence = 0;
-    private double experience = 5;
+    private double experience = 5.0;
     private int gold = 5;
 
     public Slime(Position position) {
