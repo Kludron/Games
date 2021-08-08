@@ -13,6 +13,9 @@ public class Character extends Entity {
     private int level = 0;
     private int gold = 0;
 
+    private int LEVEL_UP_BASE = 100;
+    private int LEVEL_UP_INCREASE = 100;
+
     private List<Item> equippedItems = new ArrayList<Item>();
 
     /**
@@ -117,7 +120,7 @@ public class Character extends Entity {
 
     @Override
     public void setExperience(double experience) {
-        if (experience >= (1000 + level*200)) {levelUp();}
+        if (experience >= (LEVEL_UP_BASE + level*LEVEL_UP_INCREASE)) {levelUp();}
         else {super.setExperience(experience);}
     }
 
